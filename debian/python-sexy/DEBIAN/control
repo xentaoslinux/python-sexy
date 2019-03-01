@@ -1,6 +1,6 @@
 Package: python-sexy
 Source: sexy-python
-Version: 0.1.9+xentaos1
+Version: 0.1.9-2+xentaos1
 Architecture: amd64
 Maintainer: Dindin Hernawan (Xenta OS) <dindin_hernawan@yahoo.com>
 Installed-Size: 55
