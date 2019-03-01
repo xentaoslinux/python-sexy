@@ -1,0 +1,167 @@
+/* -*- Mode: C; c-basic-offset: 4 -*- */
+%%
+headers
+#include <Python.h>
+
+#define NO_IMPORT_PYGOBJECT
+#include "pygobject.h"
+#include <pygtk/pygtk.h>
+
+#include <libsexy/sexy-enum-types.h>
+#include <libsexy/sexy-icon-entry.h>
+#include <libsexy/sexy-url-label.h>
+#include <libsexy/sexy-spell-entry.h>
+#include <libsexy/sexy-tooltip.h>
+#include <libsexy/sexy-tree-view.h>
+
+static PyObject *
+pysexy_wrap_gobj_slist(GSList *list)
+{
+	GSList *l;
+	PyObject *item, *ret;
+
+	ret = PyList_New(0);
+
+	if (ret == NULL)
+		return NULL;
+
+	for (l = list; l != NULL; l = l->next)
+	{
+		item = pygobject_new((GObject *)l->data);
+
+		if (item == NULL)
+		{
+			Py_DECREF(ret);
+			return NULL;
+		}
+
+		PyList_Append(ret, item);
+		Py_DECREF(item);
+	}
+
+	return ret;
+}
+
+GSList *
+pysexy_unwrap_gobj_slist(PyObject *py_items, PyTypeObject *type, gboolean *ok)
+{
+	int len, i;
+	GSList *items;
+
+	*ok = TRUE;
+
+	len = PyList_Size(py_items);
+
+	for (i = 0; i < len; i++)
+	{
+		PyObject *item = PyList_GetItem(py_items, i);
+
+		if (!pygobject_check(item, type))
+		{
+			char *err = g_strdup_printf("list item not a %s", type->tp_name);
+
+			PyErr_SetString(PyExc_TypeError, err);
+
+			g_free(err);
+			g_slist_free(items);
+			*ok = FALSE;
+			return NULL;
+		}
+
+		items = g_slist_append(items, pygobject_get(item));
+	}
+
+	return items;
+}
+%%
+modulename sexy
+%%
+import gtk.gdk.Screen as PyGdkScreen_Type
+import gtk.Entry as PyGtkEntry_Type
+import gtk.Image as PyGtkImage_Type
+import gtk.Label as PyGtkLabel_Type
+import gtk.TreeView as PyGtkTreeView_Type
+import gtk.Widget as PyGtkWidget_Type
+import gtk.Window as PyGtkWindow_Type
+%%
+ignore-glob 
+  sexy_url_label_new_with_text
+  sexy_spell_error_quark
+%%
+override sexy_spell_entry_get_languages
+static PyObject *
+_wrap_sexy_spell_entry_get_languages(PyGObject *self)
+{
+	return pysexy_wrap_gobj_slist(
+		sexy_spell_entry_get_languages(SEXY_SPELL_ENTRY(self->obj)));
+}
+%%
+override sexy_spell_entry_get_active_languages
+static PyObject *
+_wrap_sexy_spell_entry_get_active_languages(PyGObject *self)
+{
+	return pysexy_wrap_gobj_slist(
+		sexy_spell_entry_get_languages(SEXY_SPELL_ENTRY(self->obj)));
+}
+%%
+override sexy_spell_entry_set_active_languages
+static PyObject *
+_wrap_sexy_spell_entry_set_active_languages(PyGObject *self, PyObject *args,
+											PyObject *kwargs)
+{
+	static char *kwlist[] = { "langs" , NULL };
+	PyObject *py_langs;
+	GList *langs = NULL;
+	GSList *items;
+	gboolean ok = FALSE;
+	gboolean result;
+	GError *error = NULL;
+
+	if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O:set_active_languages",
+									 kwlist, &py_langs))
+	{
+		return NULL;
+	}
+
+	items = pysexy_unwrap_gobj_slist(py_langs, &PyString_Type, &ok);
+
+	if (!ok)
+		return NULL;
+
+	result = sexy_spell_entry_set_active_languages(SEXY_SPELL_ENTRY(self->obj),
+												   items, &error);
+	g_slist_free(items);
+
+	if (pyg_error_check(&error))
+		return NULL;
+
+	return PyBool_FromLong(result);
+}
+%%
+override sexy_url_label_new kwargs
+static int
+_wrap_sexy_url_label_new(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "markup", NULL };
+    gchar *markup = NULL;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|z:OSexyUrlLabel.__init__",
+                                     kwlist, &markup))
+        return -1;
+
+    pygobject_construct(self, NULL);
+
+    if (markup)
+        sexy_url_label_set_markup(SEXY_URL_LABEL(self->obj), markup);
+
+    if (!self->obj)
+	{
+        PyErr_SetString(PyExc_RuntimeError,
+						"could not create SexyUrlLabel object");
+        return -1;
+    }
+    return 0;
+}
+%%
+init
+    pyg_set_object_has_new_constructor(SEXY_TYPE_URL_LABEL);

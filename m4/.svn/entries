@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="442"
+   name=""
+   committed-date="2005-12-13T19:13:02.664873Z"
+   url="http://osiris.chipx86.com/svn/osiris-misc/trunk/sexy-python/m4"
+   last-author="chipx86"
+   kind="dir"
+   uuid="fcb7aa13-0ff1-0310-96dc-bd51836c2e96"
+   revision="645"/>
+<entry
+   committed-rev="442"
+   name="python.m4"
+   text-time="2005-12-13T19:12:19.000000Z"
+   committed-date="2005-12-13T19:13:02.664873Z"
+   checksum="a00ef1616d0c772f662caa10ed8529f4"
+   last-author="chipx86"
+   kind="file"
+   prop-time="2005-11-10T10:26:19.000000Z"/>
+</wc-entries>

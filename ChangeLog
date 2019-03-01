@@ -1,0 +1,69 @@
+==================== 0.1.9 ====================
+
+Sat Sep 02 15:52:18 PDT 2006  Christian Hammond <chipx86@chipx86.com>
+
+	* configure.ac:
+	* COPYING:
+	* NEWS:
+	  - Updated to version 0.1.9.
+	  - Fix the license file. It should show the LGPL, not GPL.
+
+==================== 0.1.8 ====================
+
+Sat Mar 18 13:49:01 PST 2006  Christian Hammond <chipx86@chipx86.com>
+
+	* sexy/sexy.override:
+	* ChangeLog:
+	* configure.ac:
+	  - Fixed to import gtk.gdk.Screen instead of gdk.Screen.
+	  - Updated to version 0.1.8.
+
+==================== 0.1.7 ====================
+
+Wed Mar 15 22:13:24 PST 2006  Christian Hammond <chipx86@chipx86.com>
+
+	* sexy/sexy.defs:
+	* sexy/sexy.override:
+	* NEWS:
+	* configure.ac:
+	  - Updated to be compatible with libsexy 0.1.7.
+	  - Bump the version to 0.1.7.
+
+==================== 0.1.6 ====================
+
+Sun Feb 05 17:05:04 PST 2006  Christian Hammond <chipx86@chipx86.com>
+
+	* sexy/gen-defs.sh:
+	* sexy/sexy.defs:
+	* sexy/sexy.override:
+	* NEWS:
+	* configure.ac:
+	  - Added bindings for SexyTooltip and SexyTreeView.
+	  - Bumped to version 0.1.6.
+
+==================== 0.1.5 ====================
+
+Sat Dec 24 14:46:24 PST 2005  Christian Hammond <chipx86@chipx86.com>
+
+	* configure.ac:
+	* NEWS:
+	  - Bumped to version 0.1.5.
+
+Tue Dec 13 11:21:25 PST 2005  Christian Hammond <chipx86@chipx86.com>
+
+	* sexy/sexy.defs:
+	* sexy/sexy.override:
+	* AUTHORS:
+	* ChangeLog:
+	* configure.ac:
+	  - Update the definitions to work with libsexy in SVN.
+	  - Add myself to the authors list.
+
+Wed Jul 27 16:29:32 MDT 2005  David Trowbridge <trowbrds@gmail.com>
+
+	* sexy/sexy.defs:
+	  - Removed old API functions which no longer exist in libsexy HEAD
+
+Mon Jul 25 21:50:24 GMT 2005  Raphaël Slinckx <raphael@slinckx.net>
+
+	* Initial release
