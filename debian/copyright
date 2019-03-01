@@ -1,9 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: sexy-python
-Source: http://www.freedesktop.org/software/desktop-file-utils/
+Source: http://releases.chipx86.com/libsexy/sexy-python/
 Comment:
- This package was debianized by Ross Burton <ross@burtonini.com>
- on Thu, 8 Aug 2002 17:55:59 +0100.
 
 Files: *
 Copyright:  2010, Christian Hammond <chipx86@chipx86.com>
