@@ -1,0 +1,14 @@
+Package: python-sexy
+Source: sexy-python
+Version: 0.1.9+xentaos1
+Architecture: amd64
+Maintainer: Dindin Hernawan (Xenta OS) <dindin_hernawan@yahoo.com>
+Installed-Size: 55
+Depends: libc6 (>= 2.4), libsexy2 (>= 0.1.8), python-gtk2 (>= 2.6.2)
+Section: python
+Priority: optional
+Description: Paket python language bindings for libsexy
+ Pysexy are the python language bindings for libsexy,
+ the experimental-new-cool-gtk-widgets-which-are-crude-hacks library.
+ .
+ Homepage: http://www.chipx86.com/wiki/Libsexy

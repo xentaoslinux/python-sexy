@@ -13,7 +13,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 package=sexy-python
-version="sexy-python (0.1.9)"
+version="sexy-python (0.1.9+xentaos1)"
 figlet $package
 echo " Set Remote... "
 git remote set-url origin git@github.com:xentaoslinux/$package.git

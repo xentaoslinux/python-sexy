@@ -1,0 +1,26 @@
+Source: sexy-python
+Section: python
+Priority: optional
+XS-Python-Version: >= 2.3
+Maintainer: Dindin Hernawan (Xenta OS) <dindin_hernawan@yahoo.com>
+Build-Depends: debhelper (>= 5.0.38),
+               dpatch,
+               python-all-dev (>= 2.3.5-11),
+#               python-central (>= 0.5)
+               libsexy-dev (>= 0.1.9),
+               python-gtk2-dev (>= 2.6.2)
+Standards-Version: 3.9.8
+
+Package: python-sexy
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         ${python:Depends},
+         python-gtk2 (>= 2.6.2)
+XB-Python-Version: ${python:Versions}
+Provides: ${python:Provides}
+Description: Paket python language bindings for libsexy
+ Pysexy are the python language bindings for libsexy,
+ the experimental-new-cool-gtk-widgets-which-are-crude-hacks library.
+ .
+ Homepage: http://www.chipx86.com/wiki/Libsexy

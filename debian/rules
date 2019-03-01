@@ -1,0 +1,90 @@
+#!/usr/bin/make -f
+# Run 1) debian/rules get-orig-source  2) svn-buildpackage to build it.
+
+# Source Package name (for dpatch)
+DEB_SOURCE_PACKAGE := sexy-python
+# List of patches
+PATCHLIST          := $(patsubst debian/patches/%.dpatch,%,$(wildcard debian/patches/*.dpatch))
+# Version (needed in get-orig-source)
+VERSION            := $(shell dpkg-parsechangelog | sed -n -e 's/-[^-]*$$//; s/^Version: //p')
+# Python versions to build for
+PYVERS             := $(shell pyversions -vr)
+# Include dpatch
+include /usr/share/dpatch/dpatch.make
+
+
+CFLAGS += -Wall -g -O$(if $(findstring noopt,$(DEB_BUILD_OPTIONS)),0,2)
+
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+configure_flags += \
+		--prefix=/usr \
+		--enable-thread \
+		--build=$(DEB_BUILD_GNU_TYPE)
+
+ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
+	configure_flags += --host=$(DEB_HOST_GNU_TYPE)
+endif
+
+build-%/configure-stamp:
+	dh_testdir
+	mkdir -p build-$*
+	cd build-$* && \
+		PYTHON=/usr/bin/python$* CFLAGS="$(CFLAGS)" \
+			$(CURDIR)/configure $(configure_flags)
+	touch $@
+
+build-%/build-stamp: build-%/configure-stamp
+	dh_testdir
+	$(MAKE) -C build-$*
+	touch $@
+
+build: patch $(PYVERS:%=build-%/build-stamp)
+
+install-clean:
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+
+install-%: build-%/build-stamp
+	dh_testdir
+	dh_testroot
+	$(MAKE) -C build-$* install DESTDIR=$(CURDIR)/debian/python-sexy
+	find debian/python-sexy -name '*.la'  -exec rm -f '{}' \;
+
+install: build install-clean $(PYVERS:%=install-%)
+	dh_testdir
+	dh_testroot
+
+clean: unpatch
+	dh_testdir
+	dh_testroot
+	dh_clean
+	rm -Rf build-*
+
+# get-orig-source:
+# 	[ -d ../tarballs ] || mkdir ../tarballs
+# 	wget -O ../tarballs/sexy-python_$(VERSION).orig.tar.gz http://releases.chipx86.com/libsexy/sexy-python/sexy-python-$(VERSION).tar.gz
+
+binary-indep: build install
+
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installdocs README NEWS
+	dh_installchangelogs ChangeLog
+	dh_strip
+	dh_link
+	dh_compress
+	dh_fixperms
+#	dh_pycentral
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-arch binary-indep
+.PHONY: build clean binary-indep binary-arch binary build install
+

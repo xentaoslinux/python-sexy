@@ -1,0 +1,55 @@
+sexy-python (0.1.9+xentaos1) batik; urgency=low
+
+  * Initial Release
+
+ -- Dindin Hernawan (Xenta OS) <dindin_hernawan@yahoo.com>  Fri, 01 Mar 2019 14:24:04 +0700 
+
+sexy-python (0.1.9-1) unstable; urgency=low
+
+  [ Julian Andres Klode ]
+  * Initial upload to Debian (Closes: #379383, #385662)
+  * Don't use cdbs
+  * Use dpatch for patching
+  * debian/control: binary package has to be python-sexy
+  * debian/copyright: License is LGPL, not GPL
+  * debian/watch: Added
+  * Added get-orig-source which fetches the tarball and places it
+    into ../tarballs
+
+  [ Loic Minier ]
+  * Wrap build-deps and deps.
+  * Add myself as Uploader.
+
+ -- Julian Andres Klode <jak@jak-linux.org>  Wed, 27 Jun 2007 14:28:31 +0200
+
+sexy-python (0.1.9-0ubuntu3) feisty; urgency=low
+
+  * debian/patches/10-fix-sexy_tooltip_position_to_rect.patch:
+    - added   override sexy_tooltip_position_to_rect kwargs  - inspired by
+      http://bugzilla.gnome.org/show_bug.cgi?id=348658
+  * debian/control:
+    - bumped python-central Build-Depends.
+
+ -- Daniel Holbach <daniel.holbach@ubuntu.com>  Thu,  8 Mar 2007 11:05:11 +0100
+
+sexy-python (0.1.9-0ubuntu2) feisty; urgency=low
+
+  * Rebuild for python2.5 as the default python version.
+
+ -- Matthias Klose <doko@ubuntu.com>  Fri, 12 Jan 2007 13:25:29 +0000
+
+sexy-python (0.1.9-0ubuntu1) edgy; urgency=low
+
+  * New upstream release:
+    + Fixed the license. This library is LGPL, not GPL.
+    + Updated to be compatible with libsexy 0.1.9.
+  * debian/control:
+    + Bump build dependency on libsexy-dev to (>= 0.1.9)
+
+ -- Sebastian Dröge <slomo@ubuntu.com>  Mon,  4 Sep 2006 16:18:38 +0200
+
+sexy-python (0.1.8-0ubuntu1) edgy; urgency=low
+
+  * Initial release.
+
+ -- Daniel Holbach <daniel.holbach@ubuntu.com>  Wed, 26 Jul 2006 19:33:56 +0200
